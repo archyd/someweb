@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"someweb/cmd/handlers"
+	dummygen "someweb/test"
 
 	"github.com/joho/godotenv"
 )
@@ -31,7 +32,7 @@ func loadEnvVariables() {
 func routeHandler() {
 	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("../views/assets"))))
 	http.HandleFunc("/", routeIndex)
-	http.HandleFunc("/posts", routeGetArticles)
+	http.HandleFunc("/journals", routeGetArticles)
 }
 
 func routeIndex(w http.ResponseWriter, r *http.Request) {
@@ -44,16 +45,16 @@ func routeIndex(w http.ResponseWriter, r *http.Request) {
 }
 
 func routeGetArticles(w http.ResponseWriter, r *http.Request) {
-	posts := handlers.GetArticles()
+	posts := dummygen.GenerateDummy() //handlers.GetArticles()
 
 	tmpl := template.Must(template.ParseFiles("../views/index.html"))
 	err := tmpl.Execute(w, posts)
 
 	if err != nil {
+
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
-
 func runApp() {
 	myport := os.Getenv("PORT")
 	fmt.Printf("server start at localhost%s", myport)
