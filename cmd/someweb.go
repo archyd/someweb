@@ -47,7 +47,7 @@ func routeIndex(w http.ResponseWriter, r *http.Request) {
 func routeGetArticles(w http.ResponseWriter, r *http.Request) {
 	posts := dummygen.GenerateDummy() //handlers.GetArticles()
 
-	tmpl := template.Must(template.ParseFiles("../views/index.html"))
+	tmpl := template.Must(template.ParseFiles("../views/articles.html"))
 	err := tmpl.Execute(w, posts)
 
 	if err != nil {
